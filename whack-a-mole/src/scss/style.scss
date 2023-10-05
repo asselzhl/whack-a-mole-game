@@ -5,7 +5,11 @@
 .game {
     
     padding: 20px 0;
-	&__container { }
+	&__container { 
+        position: relative;
+        overflow: hidden;
+        transition: 0.5s;
+    }
 	&__title { 
         font-size: 70px;
         text-align: center;
@@ -28,6 +32,9 @@
         font-size: 40px;
         padding: 10px 20px;
         min-width: 100px;
+        border-radius: 5px;
+
+        
     }
 	&__board { 
         display: flex;
@@ -36,12 +43,101 @@
         height: 500px;
     }
 }
+.settings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .status {
 	&__text { 
         font-size: 40px;
         line-height: 120%;
     }
 }
+.settings__modal {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    right: 15px;
+    top: 170px;
+    z-index: 5;
+    transition: 0.8s;
+
+    &.hide {
+        top: 90px;
+        transition:  0.8s;
+        z-index: -5;
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+.setting {
+	&__modal { }
+	&__label { 
+        margin-bottom: 10px;
+    }
+	&__options { }
+}
+.options {
+    display: flex;
+    gap: 20px;
+	&__item { 
+        
+    }
+	&__input { }
+	&__label { }
+}
+
+.result {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 10;
+	&__modal { 
+        background: white;
+        border-radius: 5px;
+        padding: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30%;
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+	&__title { 
+        text-align: center;
+        font-size: 50px;
+        margin-bottom: 20px;
+    }
+	&__info { 
+        font-size: 35px;
+        line-height: 150%;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+	&__text { }
+	&__score { }
+	&__goal { }
+	&__time { }
+    &__button {
+        background: #000000;
+        color: white;
+        font-size: 30px;
+        padding: 10px;
+        min-width: 100px;
+        border-radius: 5px;
+    }
+}
+
+
 .hole {
     flex: 1 0 33.33%;
     overflow: hidden;
