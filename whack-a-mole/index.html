@@ -14,8 +14,8 @@
             <h1 class="game__title">whack a mole!</h1>
             <div class="game__info">
               <div class="game__goal">
-                <p class="status__text">Goal: <span class="goal">0</span></p>
-                <p class="status__text">Time: <span class="goal-time">00:00</span></p>
+                <p class="status__text">Goal: <span class="goal">5</span></p>
+                <p class="status__text">Time: <span class="goal-time">00:10</span></p>
               </div>
               <div class="game__status status">
                 <p class="status__text">Score: <span class="score">0</span></p>
@@ -31,7 +31,7 @@
                   <div class="setting__label">Level:</div>
                   <div class="setting__options options">
                     <div class="options__item">
-                      <input type="radio" name="level" id="easy" value="easy" class="options__input">
+                      <input type="radio" name="level" id="easy" value="easy" class="options__input" checked>
                       <label for="easy" class="options__label"><span>Easy</span></label>
                     </div>
                     <div class="options__item">
@@ -46,13 +46,12 @@
                 </div>
               </div>
             </div>
-            <div class="game__result result">
+            <div class="game__result result hide">
               <div class="result__modal">
-                <h2 class="result__title">winner!</h2>
+                <h2 class="result__title"></h2>
                 <div class="result__info">
+                  <p class="result__text">Level: <span class="result__level"></span></p>
                   <p class="result__text">Score: <span class="result__score">0</span></p>
-                  <p class="result__text">Goal: <span class="result__goal">0</span></p>
-                  <p class="result__text">Time: <span class="result__time">00:00</span></p>
                 </div>
                 <button class="result__button">OK</button>
               </div>

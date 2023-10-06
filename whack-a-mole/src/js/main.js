@@ -1,5 +1,6 @@
 import '../scss/style.scss';
 
+
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('.start');
@@ -8,7 +9,14 @@ const scoreInfo = document.querySelector('.score');
 const timeInfo = document.querySelector('.timer');
 const settingsButton = document.querySelector('.settings');
 const settingsModal = document.querySelector('.settings__modal');
-
+const resultButton = document.querySelector('.result__button');
+const resultModal = document.querySelector('.game__result');
+const resultScore = document.querySelector('.result__score');
+const levels = document.querySelectorAll('.options__input');
+const goalInfo = document.querySelector('.goal');
+const goalTimeInfo = document.querySelector('.goal-time');
+const resultTitle = document.querySelector('.result__title');
+const resultLevelInfo = document.querySelector('.result__level');
 
 let lastHole;
 let timeUp = false;
@@ -30,7 +38,6 @@ function getRandomHole () {
 }
 
 function moleUp () {
-    timeUp = false;
     let time = getRandomTime(200, 1000);
     let hole = getRandomHole();
     hole.classList.add('up');
@@ -38,9 +45,18 @@ function moleUp () {
         hole.classList.remove('up');
         if(!timeUp) {
             moleUp();
-            startButton.disabled = true;
+            
         } 
     }, time);
+}
+
+function startGame () {
+    scoreInfo.textContent = 0;
+    timeUp = false;
+    score = 0;
+    moleUp();
+    startButton.disabled = true;
+    settingsButton.disabled = true;
 }
 
 function stopGame () {
@@ -50,6 +66,7 @@ function stopGame () {
     timeUp = true;
     startButton.disabled = false;
     scoreInfo.textContent = 0;
+    settingsButton.disabled = false;
 }
 
 function whackMole (e) {
@@ -96,15 +113,17 @@ function setTimer () {
         stopButton.addEventListener('click', () => {
             clearInterval(intervalId);
             timeInfo.textContent = "00:00";
+            showPopup();
         })
         if (timeInfo.textContent === "00:00") {
             stopGame();
+            showPopup();
         }
     }, 1000);
     
 }
 startButton.addEventListener('click', setTimer)
-startButton.addEventListener('click', moleUp);
+startButton.addEventListener('click', startGame);
 stopButton.addEventListener('click', stopGame)
 
 settingsButton.addEventListener('click', () => {
@@ -113,5 +132,52 @@ settingsButton.addEventListener('click', () => {
     } else {
         settingsModal.classList.add('hide');
     }
-
 })
+
+
+resultButton.addEventListener('click', () => {
+    resultModal.classList.add('hide');
+})
+
+let selectedLevel = 'Easy';
+
+function showPopup () {
+    resultModal.classList.remove('hide');
+    resultScore.textContent = score;
+    if (score >= goal) {
+        resultTitle.textContent = 'Winner!';
+    } else {
+        resultTitle.textContent = 'Loser!';
+    }
+    resultLevelInfo.textContent = selectedLevel;
+}
+
+
+let goal;
+let goalTime;
+
+
+levels.forEach(level => {
+    level.addEventListener('click', function (e) {
+        if (e.target == levels[0]) {
+            goal = 5;
+            goalTime = "00:10";
+            duration = 10;
+            selectedLevel = 'Easy';
+        } else if (e.target == levels[1]) {
+            goal = 10;
+            goalTime = "00:15";
+            duration = 15;
+            selectedLevel = 'Medium';
+        } else if (e.target == levels[2]) {
+            goal = 10;
+            goalTime = "00:10";
+            duration = 10;
+            selectedLevel = 'Expert';
+        }
+
+        goalInfo.textContent = goal;
+        goalTimeInfo.textContent = goalTime;
+    })
+})
+

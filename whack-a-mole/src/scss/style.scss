@@ -98,6 +98,12 @@
     height: 100%;
     background: rgba($color: #000000, $alpha: 0.5);
     z-index: 10;
+
+    &.hide {
+        display: none;
+        opacity: 0;
+    }
+
 	&__modal { 
         background: white;
         border-radius: 5px;
@@ -107,23 +113,25 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 30%;
-        height: 50vh;
+        height: 375px;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 	&__title { 
         text-align: center;
-        font-size: 50px;
+        font-size: 70px;
         margin-bottom: 20px;
     }
 	&__info { 
-        font-size: 35px;
+        font-size: 50px;
         line-height: 150%;
         margin-bottom: 30px;
         text-align: center;
     }
-	&__text { }
+	&__text { 
+
+    }
 	&__score { }
 	&__goal { }
 	&__time { }
