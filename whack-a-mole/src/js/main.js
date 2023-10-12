@@ -21,6 +21,14 @@ const resultLevelInfo = document.querySelector('.result__level');
 let lastHole;
 let timeUp = false;
 let score = 0;
+let scoreHistory = [];
+let timeHistory = [];
+
+function setGameResult() {
+    scoreHistory.push(score);
+    timeHistory.push(duration);
+    console.log(scoreHistory, timeHistory)
+}
 
 function getRandomTime (min, max) {
     return Math.round(Math.random() * (max - min) + min);
@@ -67,6 +75,8 @@ function stopGame () {
     startButton.disabled = false;
     scoreInfo.textContent = 0;
     settingsButton.disabled = false;
+    showPopup();
+    setGameResult();
 }
 
 function whackMole (e) {
@@ -76,6 +86,10 @@ function whackMole (e) {
     score++;
     this.parentNode.classList.remove('up');
     scoreInfo.textContent = score;
+
+    if (score == goal) {
+        stopGame();
+    }
 }
 
 moles.forEach((mole) => {
@@ -117,7 +131,6 @@ function setTimer () {
         })
         if (timeInfo.textContent === "00:00") {
             stopGame();
-            showPopup();
         }
     }, 1000);
     
@@ -144,7 +157,7 @@ let selectedLevel = 'Easy';
 function showPopup () {
     resultModal.classList.remove('hide');
     resultScore.textContent = score;
-    if (score >= goal) {
+    if (goal <= score) {
         resultTitle.textContent = 'Winner!';
     } else {
         resultTitle.textContent = 'Loser!';
@@ -153,8 +166,8 @@ function showPopup () {
 }
 
 
-let goal;
-let goalTime;
+let goal = 5;
+let goalTime = 10;
 
 
 levels.forEach(level => {
@@ -181,3 +194,9 @@ levels.forEach(level => {
     })
 })
 
+
+function createTableRow () {
+    let tableRow = document.createElement('tr');
+    let scoreCol = document.createElement('td');
+    let timeCol = document.createElement('td');
+}
