@@ -18,11 +18,12 @@ const goalTimeInfo = document.querySelector('.goal-time');
 const resultTitle = document.querySelector('.result__title');
 const resultLevelInfo = document.querySelector('.result__level');
 
+
+
 let lastHole;
 let timeUp = false;
 let score = 0;
-let gameResult = [];
-let gameNum = 0;
+
 
 function getRandomTime (min, max) {
     return Math.round(Math.random() * (max - min) + min);
@@ -59,12 +60,6 @@ function startGame () {
     moleUp();
     startButton.disabled = true;
     settingsButton.disabled = true;
-    
-    if (gameNum < 10) {
-        gameNum++;
-    } else {
-        gameNum = 1;
-    }
 }
 
 function stopGame () {
@@ -76,7 +71,7 @@ function stopGame () {
     scoreInfo.textContent = 0;
     settingsButton.disabled = false;
     showPopup();
-    setGameResult();
+    
 }
 
 function whackMole (e) {
@@ -156,6 +151,8 @@ let selectedLevel = 'Easy';
 function showPopup () {
     resultModal.classList.remove('hide');
     resultScore.textContent = score;
+    
+
     if (goal <= score) {
         resultTitle.textContent = 'Winner!';
     } else {
@@ -194,19 +191,7 @@ levels.forEach(level => {
 })
 
 
-function createTableRow () {
-    let tableRow = document.createElement('tr');
-    let numCol = document.createElement('td');
-    let scoreCol = document.createElement('td');
-    let timeCol = document.createElement('td');
-}
 
 
 
-function setGameResult () { 
-    gameResult.push(score);
-    gameResult.push(timeInfo.textContent)
-    
-    localStorage.setItem(gameNum, JSON.stringify(gameResult));
-    gameResult = [];
-}
+
