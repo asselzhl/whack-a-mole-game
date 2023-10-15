@@ -21,14 +21,7 @@ const resultLevelInfo = document.querySelector('.result__level');
 let lastHole;
 let timeUp = false;
 let score = 0;
-let scoreHistory = [];
-let timeHistory = [];
-
-function setGameResult() {
-    scoreHistory.push(score);
-    timeHistory.push(duration);
-    console.log(scoreHistory, timeHistory)
-}
+let gameResult = [];
 
 function getRandomTime (min, max) {
     return Math.round(Math.random() * (max - min) + min);
@@ -100,28 +93,23 @@ moles.forEach((mole) => {
 let duration = 10;
 function setTimer () {
     let timer = duration;
-    let minutes;
-    let seconds;
+    let minutes = 0;
+    let seconds = 0;
 
     let intervalId = setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        if (minutes < 10) {
-            minutes = '0' + minutes;
-        } else {
-            minutes;
-        }
+        seconds++;
         if (seconds < 10) {
             seconds = '0' + seconds;
         } else {
             seconds;
         }
 
-        timeInfo.textContent = minutes + ":" + seconds;
+        timeInfo.textContent = "00:" + seconds;
 
-        if (--timer < 0) {
+        if (seconds == duration) {
             clearInterval(intervalId);
+            seconds = 0;
+            stopGame();
         }
 
         stopButton.addEventListener('click', () => {
@@ -129,9 +117,7 @@ function setTimer () {
             timeInfo.textContent = "00:00";
             showPopup();
         })
-        if (timeInfo.textContent === "00:00") {
-            stopGame();
-        }
+        
     }, 1000);
     
 }
@@ -146,10 +132,16 @@ settingsButton.addEventListener('click', () => {
         settingsModal.classList.add('hide');
     }
 })
+document.addEventListener('click', (e) => {
+    if (!settingsButton.contains(e.target)) {
+        settingsModal.classList.add('hide');
+    }
+})
 
 
 resultButton.addEventListener('click', () => {
     resultModal.classList.add('hide');
+    timeInfo.textContent = '00:00';
 })
 
 let selectedLevel = 'Easy';
@@ -199,4 +191,11 @@ function createTableRow () {
     let tableRow = document.createElement('tr');
     let scoreCol = document.createElement('td');
     let timeCol = document.createElement('td');
+}
+
+
+function setGameResult () { 
+    gameResult.push(score);
+    gameResult.push(timeInfo.textContent)
+    console.log(gameResult);
 }
