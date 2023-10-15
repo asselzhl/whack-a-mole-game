@@ -1,16 +1,29 @@
 import '../scss/style.scss';
 
+
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const scoreInfo = document.querySelector('.score');
 const timeInfo = document.querySelector('.timer');
+const settingsButton = document.querySelector('.settings');
+const settingsModal = document.querySelector('.settings__modal');
+const resultButton = document.querySelector('.result__button');
+const resultModal = document.querySelector('.game__result');
+const resultScore = document.querySelector('.result__score');
+const levels = document.querySelectorAll('.options__input');
+const goalInfo = document.querySelector('.goal');
+const goalTimeInfo = document.querySelector('.goal-time');
+const resultTitle = document.querySelector('.result__title');
+const resultLevelInfo = document.querySelector('.result__level');
 
 let lastHole;
 let timeUp = false;
-let isGameOn;
 let score = 0;
+let gameResult = [];
+let gameNum = 0;
+
 function getRandomTime (min, max) {
     return Math.round(Math.random() * (max - min) + min);
 }
@@ -32,8 +45,38 @@ function moleUp () {
     hole.classList.add('up');
     setTimeout(() => {
         hole.classList.remove('up');
-        if(!timeUp) moleUp();
+        if(!timeUp) {
+            moleUp();
+            
+        } 
     }, time);
+}
+
+function startGame () {
+    scoreInfo.textContent = 0;
+    timeUp = false;
+    score = 0;
+    moleUp();
+    startButton.disabled = true;
+    settingsButton.disabled = true;
+    
+    if (gameNum < 10) {
+        gameNum++;
+    } else {
+        gameNum = 1;
+    }
+}
+
+function stopGame () {
+    holes.forEach(hole => {
+        hole.classList.remove('up');
+    })
+    timeUp = true;
+    startButton.disabled = false;
+    scoreInfo.textContent = 0;
+    settingsButton.disabled = false;
+    showPopup();
+    setGameResult();
 }
 
 function whackMole (e) {
@@ -43,6 +86,10 @@ function whackMole (e) {
     score++;
     this.parentNode.classList.remove('up');
     scoreInfo.textContent = score;
+
+    if (score == goal) {
+        stopGame();
+    }
 }
 
 moles.forEach((mole) => {
@@ -50,37 +97,116 @@ moles.forEach((mole) => {
 })
 
 
-let duration = 30;
+let duration = 10;
 function setTimer () {
     let timer = duration;
-    let minutes;
-    let seconds;
+    let minutes = 0;
+    let seconds = 0;
 
     let intervalId = setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        if (minutes < 10) {
-            minutes = '0' + minutes;
-        } else {
-            minutes;
-        }
+        seconds++;
         if (seconds < 10) {
             seconds = '0' + seconds;
         } else {
             seconds;
         }
 
-        timeInfo.textContent = minutes + ":" + seconds;
+        timeInfo.textContent = "00:" + seconds;
 
-        if (--timer < 0) {
-            timer = duration;
+        if (seconds == duration) {
+            clearInterval(intervalId);
+            seconds = 0;
+            stopGame();
         }
 
         stopButton.addEventListener('click', () => {
             clearInterval(intervalId);
+            timeInfo.textContent = "00:00";
+            showPopup();
         })
+        
     }, 1000);
+    
 }
 startButton.addEventListener('click', setTimer)
+startButton.addEventListener('click', startGame);
+stopButton.addEventListener('click', stopGame)
 
+settingsButton.addEventListener('click', () => {
+    if(settingsModal.classList.contains('hide')) {
+        settingsModal.classList.remove('hide');
+    } else {
+        settingsModal.classList.add('hide');
+    }
+})
+document.addEventListener('click', (e) => {
+    if (!settingsButton.contains(e.target)) {
+        settingsModal.classList.add('hide');
+    }
+})
+
+
+resultButton.addEventListener('click', () => {
+    resultModal.classList.add('hide');
+    timeInfo.textContent = '00:00';
+})
+
+let selectedLevel = 'Easy';
+
+function showPopup () {
+    resultModal.classList.remove('hide');
+    resultScore.textContent = score;
+    if (goal <= score) {
+        resultTitle.textContent = 'Winner!';
+    } else {
+        resultTitle.textContent = 'Loser!';
+    }
+    resultLevelInfo.textContent = selectedLevel;
+}
+
+
+let goal = 5;
+let goalTime = 10;
+
+
+levels.forEach(level => {
+    level.addEventListener('click', function (e) {
+        if (e.target == levels[0]) {
+            goal = 5;
+            goalTime = "00:10";
+            duration = 10;
+            selectedLevel = 'Easy';
+        } else if (e.target == levels[1]) {
+            goal = 10;
+            goalTime = "00:15";
+            duration = 15;
+            selectedLevel = 'Medium';
+        } else if (e.target == levels[2]) {
+            goal = 10;
+            goalTime = "00:10";
+            duration = 10;
+            selectedLevel = 'Expert';
+        }
+
+        goalInfo.textContent = goal;
+        goalTimeInfo.textContent = goalTime;
+    })
+})
+
+
+function createTableRow () {
+    let tableRow = document.createElement('tr');
+    let numCol = document.createElement('td');
+    let scoreCol = document.createElement('td');
+    let timeCol = document.createElement('td');
+}
+
+
+
+function setGameResult () { 
+    gameResult.push(score);
+    gameResult.push(timeInfo.textContent)
+    
+    localStorage.setItem(gameNum, JSON.stringify(gameResult));
+    gameResult = [];
+}

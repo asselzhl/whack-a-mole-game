@@ -13,13 +13,55 @@
           <div class="game__container _container">
             <h1 class="game__title">whack a mole!</h1>
             <div class="game__info">
+              <div class="game__goal">
+                <p class="status__text">Goal: <span class="goal">5</span></p>
+                <p class="status__text">Time: <span class="goal-time">00:10</span></p>
+              </div>
               <div class="game__status status">
                 <p class="status__text">Score: <span class="score">0</span></p>
                 <p class="status__text">Timer: <span class="timer">00:00</span></p>
               </div>
               <div class="game__controls">
-                <button class="game__button start">Start game</button>
-                <button class="game__button stop">Stop game</button>
+                <button class="game__button start">Start</button>
+                <button class="game__button stop">Stop</button>
+                <button class="game__button settings"><img src="/svg/settings.svg" alt="settings button"></button>
+              </div>
+              <div class="settings__modal hide">
+                <div class="setting">
+                  <div class="setting__label">Level:</div>
+                  <div class="setting__options options">
+                    <div class="options__item">
+                      <input type="radio" name="level" id="easy" value="easy" class="options__input" checked>
+                      <label for="easy" class="options__label"><span>Easy</span></label>
+                    </div>
+                    <div class="options__item">
+                      <input type="radio" name="level" id="medium" value="medium" class="options__input">
+                      <label for="medium" class="options__label"><span>Medium</span></label>
+                    </div>
+                    <div class="options__item">
+                      <input type="radio" name="level" id="expert" value="expert" class="options__input">
+                      <label for="expert" class="options__label"><span>Expert</span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="game__result result hide">
+              <div class="result__modal">
+                <h2 class="result__title"></h2>
+                <div class="result__info">
+                  <p class="result__text">Level: <span class="result__level"></span></p>
+                  <p class="result__text">Score: <span class="result__score">0</span></p>
+                </div>
+                <h3>Recent games</h3>
+                <table class="recent__games">
+                  <tr>
+                    <th>№</th>
+                    <th>Score</th>
+                    <th>Time</th>
+                  </tr>
+                </table>
+                <button class="result__button">OK</button>
               </div>
             </div>
             <div class="game__board">
