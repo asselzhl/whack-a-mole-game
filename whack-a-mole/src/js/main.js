@@ -22,6 +22,7 @@ let lastHole;
 let timeUp = false;
 let score = 0;
 let gameResult = [];
+let gameNum = 0;
 
 function getRandomTime (min, max) {
     return Math.round(Math.random() * (max - min) + min);
@@ -58,6 +59,12 @@ function startGame () {
     moleUp();
     startButton.disabled = true;
     settingsButton.disabled = true;
+    
+    if (gameNum < 10) {
+        gameNum++;
+    } else {
+        gameNum = 1;
+    }
 }
 
 function stopGame () {
@@ -189,13 +196,17 @@ levels.forEach(level => {
 
 function createTableRow () {
     let tableRow = document.createElement('tr');
+    let numCol = document.createElement('td');
     let scoreCol = document.createElement('td');
     let timeCol = document.createElement('td');
 }
 
 
+
 function setGameResult () { 
     gameResult.push(score);
     gameResult.push(timeInfo.textContent)
-    console.log(gameResult);
+    
+    localStorage.setItem(gameNum, JSON.stringify(gameResult));
+    gameResult = [];
 }
