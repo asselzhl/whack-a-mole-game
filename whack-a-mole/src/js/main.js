@@ -74,6 +74,13 @@ function stopGame () {
     
 }
 
+const moleSound = new Audio();
+
+function playMoleSound() {
+    moleSound.src = '/audio/whack.mp3'
+    moleSound.play();
+}
+
 function whackMole (e) {
     if(!e.isTrusted) {
         return;
@@ -81,7 +88,7 @@ function whackMole (e) {
     score++;
     this.parentNode.classList.remove('up');
     scoreInfo.textContent = score;
-
+    playMoleSound();
     if (score == goal) {
         stopGame();
     }
@@ -148,6 +155,16 @@ resultButton.addEventListener('click', () => {
 
 let selectedLevel = 'Easy';
 
+const winnerSound = new Audio();
+const loserSound = new Audio();
+function playWinnerSound() {
+    winnerSound.src = '/audio/winner.mp3'
+    winnerSound.play();
+}
+function playLoserSound() {
+    loserSound.src = '/audio/loser.mp3'
+    loserSound.play();
+}
 function showPopup () {
     resultModal.classList.remove('hide');
     resultScore.textContent = score;
@@ -155,8 +172,10 @@ function showPopup () {
 
     if (goal <= score) {
         resultTitle.textContent = 'Winner!';
+        playWinnerSound();
     } else {
         resultTitle.textContent = 'Loser!';
+        playLoserSound();
     }
     resultLevelInfo.textContent = selectedLevel;
 }
