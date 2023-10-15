@@ -20,7 +20,7 @@
         justify-content: space-between;
         align-items: center;
     }
-	&__status { }
+	
 	&__controls { 
         display: flex;
         gap: 10px;
@@ -74,20 +74,16 @@
     }
 }
 .setting {
-	&__modal { }
+	
 	&__label { 
         margin-bottom: 10px;
     }
-	&__options { }
+	
 }
 .options {
     display: flex;
     gap: 20px;
-	&__item { 
-        
-    }
-	&__input { }
-	&__label { }
+	
 }
 
 .result {
@@ -129,12 +125,8 @@
         margin-bottom: 30px;
         text-align: center;
     }
-	&__text { 
-
-    }
-	&__score { }
-	&__goal { }
-	&__time { }
+	
+	
     &__button {
         background: #000000;
         color: white;
